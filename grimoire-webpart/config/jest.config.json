@@ -1,0 +1,7 @@
+{
+  "extends": "@microsoft/spfx-web-build-rig/profiles/default/config/jest.config.json",
+
+  "moduleNameMapper": {
+    "^GrimoireAssistantWebPartStrings$": "<rootDir>/src/webparts/grimoireAssistant/loc/__mocks__/GrimoireAssistantWebPartStrings.js"
+  }
+}

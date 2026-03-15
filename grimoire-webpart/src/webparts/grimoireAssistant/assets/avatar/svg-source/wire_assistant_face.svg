@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="gMagic" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#71E7FF"/>
+      <stop offset="50%" stop-color="#7A5CFF"/>
+      <stop offset="100%" stop-color="#F35CCF"/>
+    </linearGradient>
+    <linearGradient id="gCover" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#24143A"/>
+      <stop offset="100%" stop-color="#12091F"/>
+    </linearGradient>
+    <linearGradient id="gPage" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF8E9"/>
+      <stop offset="100%" stop-color="#E5DBC9"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g id="grimoire_mascot">
+    <!-- magic halo -->
+    <g id="halo" filter="url(#glow)" opacity="0.92">
+      <path d="M220 300 C340 190 684 190 804 300" fill="none" stroke="url(#gMagic)" stroke-width="18" stroke-linecap="round"/>
+      <circle cx="290" cy="255" r="8" fill="#71E7FF"/>
+      <circle cx="512" cy="210" r="10" fill="#A5F1FF"/>
+      <circle cx="734" cy="255" r="8" fill="#F35CCF"/>
+    </g>
+
+    <!-- back pages / page stack -->
+    <g id="page_stack" stroke="#0F0919" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M186 676 C312 670 417 710 512 794 C607 710 712 670 838 676"/>
+      <path d="M198 706 C318 700 420 735 512 812 C604 735 706 700 826 706"/>
+      <path d="M212 734 C326 728 425 758 512 828 C599 758 698 728 812 734"/>
+    </g>
+
+    <!-- covers -->
+    <g id="covers">
+      <path id="left_cover" d="M108 372 C252 372 386 420 512 566 L512 792 C392 696 253 646 128 638 C102 636 82 615 82 588 L82 404 C82 386 92 372 108 372 Z" fill="url(#gCover)"/>
+      <path id="right_cover" d="M916 372 C772 372 638 420 512 566 L512 792 C632 696 771 646 896 638 C922 636 942 615 942 588 L942 404 C942 386 932 372 916 372 Z" fill="url(#gCover)"/>
+    </g>
+
+    <!-- pages -->
+    <g id="pages">
+      <path id="left_page" d="M132 348 C270 348 394 398 512 530 L512 746 C402 665 275 620 160 608 C133 605 112 584 112 556 L112 384 C112 364 118 348 132 348 Z" fill="url(#gPage)" stroke="#E9E0D0" stroke-width="4"/>
+      <path id="right_page" d="M892 348 C754 348 630 398 512 530 L512 746 C622 665 749 620 864 608 C891 605 912 584 912 556 L912 384 C912 364 906 348 892 348 Z" fill="url(#gPage)" stroke="#E9E0D0" stroke-width="4"/>
+    </g>
+
+    <!-- center spine -->
+    <g id="spine">
+      <path d="M512 528 L512 812" stroke="url(#gMagic)" stroke-width="28" stroke-linecap="round" filter="url(#glow)"/>
+      <path d="M512 518 L512 800" stroke="#CFF9FF" stroke-width="8" stroke-linecap="round" opacity="0.85"/>
+    </g>
+
+    <!-- page lines -->
+    <g id="page_lines" stroke="#B8AE98" stroke-width="6" stroke-linecap="round" opacity="0.8">
+      <path d="M166 440 C255 438 338 457 426 506"/>
+      <path d="M166 488 C256 486 342 511 442 568"/>
+      <path d="M166 536 C262 536 350 564 454 626"/>
+      <path d="M858 440 C769 438 686 457 598 506"/>
+      <path d="M858 488 C768 486 682 511 582 568"/>
+      <path d="M858 536 C762 536 674 564 570 626"/>
+    </g>
+
+    <!-- face -->
+    <g id="face">
+      <g id="eyes">
+        <g id="left_eye">
+          <ellipse cx="382" cy="468" rx="42" ry="42" fill="#FFFFFF" stroke="#12091F" stroke-width="8"/>
+          <circle cx="382" cy="470" r="13" fill="#12091F"/>
+          <circle cx="376" cy="462" r="4" fill="#FFFFFF"/>
+          <path d="M344 412 C360 394 387 386 412 392" fill="none" stroke="#12091F" stroke-width="10" stroke-linecap="round"/>
+        </g>
+        <g id="right_eye">
+          <ellipse cx="642" cy="468" rx="42" ry="42" fill="#FFFFFF" stroke="#12091F" stroke-width="8"/>
+          <circle cx="642" cy="470" r="13" fill="#12091F"/>
+          <circle cx="636" cy="462" r="4" fill="#FFFFFF"/>
+          <path d="M604 392 C629 386 656 394 672 412" fill="none" stroke="#12091F" stroke-width="10" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <g id="mouth">
+        <path id="mouth_smile" d="M430 610 Q512 672 594 610" fill="none" stroke="#12091F" stroke-width="14" stroke-linecap="round"/>
+        <path id="mouth_inner" d="M454 620 Q512 660 570 620" fill="none" stroke="url(#gMagic)" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+      </g>
+    </g>
+
+    <!-- little magical bookmark/rune -->
+    <g id="bookmark" filter="url(#glow)">
+      <path d="M476 532 H548" stroke="url(#gMagic)" stroke-width="10" stroke-linecap="round"/>
+      <path d="M512 500 L512 566" stroke="url(#gMagic)" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="512" cy="532" r="8" fill="#D6FAFF"/>
+    </g>
+  </g>
+</svg>

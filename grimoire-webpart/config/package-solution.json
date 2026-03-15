@@ -1,0 +1,118 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "grimoire-spfx-client-side-solution",
+    "id": "b7e2f8a1-3c4d-5e6f-9a0b-1c2d3e4f5678",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Sites.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Files.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "People.Read"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Mail.Read"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Chat.Read"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "ChannelMessage.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "ExternalItem.Read.All"
+      },
+      {
+        "resource": "Grimoire Backend API",
+        "scope": "user_impersonation"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.OneDriveSharepoint.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.SharepointLists.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.Mail.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.Calendar.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.Teams.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.Me.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.CopilotMCP.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.Dataverse.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.Word.All"
+      },
+      {
+        "resource": "Agent 365 Tools",
+        "scope": "McpServers.Management.All"
+      }
+    ],
+    "developer": {
+      "name": "Grimoire",
+      "websiteUrl": "https://github.com/GriMoire-SPFx/grimoire",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.22.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Grimoire AI Assistant for Microsoft 365"
+      },
+      "longDescription": {
+        "default": "A visual AI assistant with particle avatar, voice interaction, and M365 data operations via MCP servers and Copilot Search APIs."
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "Grimoire Assistant Feature",
+        "description": "The feature that activates the Grimoire AI Assistant web part.",
+        "id": "c8d9e0f1-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/grimoire-spfx.sppkg"
+  }
+}

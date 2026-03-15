@@ -1,0 +1,22 @@
+<svg viewBox="0 0 713 966" xmlns="http://www.w3.org/2000/svg">
+  <g id="squirrel_face">
+    <image href="__SQUIRREL_BASE__" x="0" y="0" width="713" height="966" preserveAspectRatio="none"/>
+
+    <g id="brows">
+      <image href="__SQUIRREL_BROW_LEFT__" x="75" y="350" width="210" height="85" preserveAspectRatio="none"/>
+      <image href="__SQUIRREL_BROW_RIGHT__" x="430" y="350" width="210" height="85" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="left_eye">
+      <image href="__SQUIRREL_EYE_LEFT__" x="118" y="422" width="130" height="136" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="right_eye">
+      <image href="__SQUIRREL_EYE_RIGHT__" x="455" y="422" width="130" height="136" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="mouth">
+      <image href="__SQUIRREL_MOUTH__" x="225" y="605" width="245" height="125" preserveAspectRatio="none"/>
+    </g>
+  </g>
+</svg>

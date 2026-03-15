@@ -1,0 +1,22 @@
+<svg viewBox="0 0 796 976" xmlns="http://www.w3.org/2000/svg">
+  <g id="particle_face">
+    <image href="__PARTICLE_VISAGE_BASE__" x="0" y="0" width="796" height="976" preserveAspectRatio="none"/>
+
+    <g id="brows">
+      <image href="__PARTICLE_VISAGE_BROW_LEFT__" x="80" y="290" width="170" height="72" preserveAspectRatio="none"/>
+      <image href="__PARTICLE_VISAGE_BROW_RIGHT__" x="430" y="290" width="170" height="72" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="left_eye">
+      <image href="__PARTICLE_VISAGE_EYE_LEFT__" x="84" y="328" width="176" height="100" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="right_eye">
+      <image href="__PARTICLE_VISAGE_EYE_RIGHT__" x="420" y="328" width="176" height="100" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="mouth">
+      <image href="__PARTICLE_VISAGE_MOUTH__" x="248" y="646" width="300" height="108" preserveAspectRatio="none"/>
+    </g>
+  </g>
+</svg>

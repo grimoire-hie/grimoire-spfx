@@ -1,0 +1,12 @@
+{
+  "extends": "./node_modules/@microsoft/spfx-web-build-rig/profiles/default/tsconfig-base.json",
+  "watchOptions": {
+    "excludeDirectories": [
+      "node_modules",
+      "lib",
+      "lib-commonjs",
+      "dist",
+      "release"
+    ]
+  }
+}

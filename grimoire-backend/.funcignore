@@ -1,0 +1,7 @@
+node_modules/
+scripts/
+local.settings.json
+.git/
+.vscode/
+*.md
+.funcignore

@@ -1,0 +1,24 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "ALLOWED_KEYS": "your-proxy-key-here",
+    "ALLOW_PERMISSIVE_LOCAL_CORS": "false",
+    "ALLOWED_ORIGINS": "https://your-tenant.sharepoint.com",
+    "BACKENDS": "reasoning,fast",
+    "BACKEND_reasoning_ENDPOINT": "https://your-foundry.openai.azure.com/",
+    "BACKEND_reasoning_KEY": "your-api-key",
+    "BACKEND_fast_ENDPOINT": "https://your-foundry.openai.azure.com/",
+    "BACKEND_fast_KEY": "your-api-key",
+    "REQUESTS_PER_MINUTE": "30",
+    "REQUESTS_PER_DAY": "1000",
+    "MCP_SESSION_TIMEOUT_MINUTES": "30",
+    "MAX_MCP_SESSIONS": "20",
+    "MCP_ALLOWED_HOSTS": "",
+    "MCP_TOKEN_FORWARD_ALLOWLIST": "agent365.svc.cloud.microsoft",
+    "LLM_UPSTREAM_TIMEOUT_MS": "30000",
+    "REALTIME_TOKEN_TIMEOUT_MS": "15000",
+    "REALTIME_DEPLOYMENT_NAME": "grimoire-realtime"
+  }
+}

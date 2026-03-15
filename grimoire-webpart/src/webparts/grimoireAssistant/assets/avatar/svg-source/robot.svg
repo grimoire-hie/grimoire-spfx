@@ -1,0 +1,30 @@
+<svg viewBox="0 0 900 743" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="robot_silhouette">
+      <path d="M34 184 C14 167 0 183 2 237 L4 292 C6 322 22 338 47 338 C57 410 93 480 151 545 C234 638 331 692 450 720 C569 692 666 638 749 545 C807 480 843 410 853 338 C878 338 894 322 896 292 L898 237 C900 183 886 167 866 184 C846 95 755 43 638 33 C539 25 361 25 262 33 C145 43 54 95 34 184 Z"/>
+    </clipPath>
+  </defs>
+
+  <g id="pixel_ai">
+    <g clip-path="url(#robot_silhouette)">
+      <image href="__ROBOT_BASE__" x="0" y="0" width="900" height="743" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="brows">
+      <image href="__ROBOT_BROW_LEFT__" x="157" y="119" width="252" height="88" preserveAspectRatio="none"/>
+      <image href="__ROBOT_BROW_RIGHT__" x="491" y="119" width="252" height="88" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="left_eye">
+      <image href="__ROBOT_EYE_LEFT__" x="196" y="180" width="214" height="166" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="right_eye">
+      <image href="__ROBOT_EYE_RIGHT__" x="489" y="180" width="214" height="166" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="mouth">
+      <image href="__ROBOT_MOUTH__" x="300" y="385" width="300" height="155" preserveAspectRatio="none"/>
+    </g>
+  </g>
+</svg>

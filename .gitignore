@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# SPFx build output
+dist/
+lib/
+lib-commonjs/
+release/
+temp/
+*.sppkg
+grimoire-webpart/jest-output/
+grimoire-webpart/sharepoint/solution/debug/
+grimoire-webpart/sharepoint/solution/*.sppkg
+
+# Azure Functions
+grimoire-backend/bin/
+grimoire-backend/obj/
+grimoire-backend/discovery-output*.json
+
+# Local settings and deploy config (contain secrets)
+grimoire-backend/local.settings.json
+grimoire-backend/.grimoire-deploy.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Documentation site
+website/.docusaurus/
+website/build/
+website/.cache-loader/

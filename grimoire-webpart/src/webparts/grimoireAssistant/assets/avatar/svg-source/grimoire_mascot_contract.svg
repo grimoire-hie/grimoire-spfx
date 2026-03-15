@@ -1,0 +1,28 @@
+<svg viewBox="0 0 842 860" xmlns="http://www.w3.org/2000/svg">
+  <g id="grimoire_mascot">
+    <image href="__GRIMOIRE_BOOK_BASE__" x="0" y="0" width="842" height="860" preserveAspectRatio="none"/>
+
+    <g id="halo"/>
+    <g id="covers"/>
+    <g id="pages"/>
+    <g id="page_stack"/>
+    <g id="page_lines"/>
+
+    <g id="brows">
+      <image href="__GRIMOIRE_BOOK_BROW_LEFT__" x="248" y="245" width="158" height="76" preserveAspectRatio="none"/>
+      <image href="__GRIMOIRE_BOOK_BROW_RIGHT__" x="437" y="245" width="158" height="76" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="left_eye">
+      <image href="__GRIMOIRE_BOOK_EYE_LEFT__" x="252" y="300" width="176" height="146" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="right_eye">
+      <image href="__GRIMOIRE_BOOK_EYE_RIGHT__" x="418" y="300" width="176" height="146" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="mouth">
+      <image href="__GRIMOIRE_BOOK_MOUTH__" x="330" y="426" width="182" height="88" preserveAspectRatio="none"/>
+    </g>
+  </g>
+</svg>

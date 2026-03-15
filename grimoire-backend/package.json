@@ -1,0 +1,25 @@
+{
+  "name": "grimoire-backend",
+  "version": "1.0.0",
+  "description": "Azure Functions backend for Grimoire — routes to Microsoft Foundry (GPT-5 Mini + GPT-5 Nano + GPT Realtime 1.5) with auth, rate limiting, managed identity, and MCP session management",
+  "type": "module",
+  "main": "src/functions/*.js",
+  "scripts": {
+    "start": "func start",
+    "deploy": "node scripts/deploy.mjs",
+    "setup": "node scripts/setup-local.mjs",
+    "test": "node scripts/test-proxy.mjs",
+    "test:unit": "node --test ./test",
+    "test:proxy": "node scripts/test-proxy.mjs",
+    "teardown": "node scripts/teardown.mjs"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.5.0",
+    "@azure/identity": "^4.6.0",
+    "@azure/data-tables": "^13.3.0",
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "azure-functions-core-tools": "^4.x"
+  }
+}

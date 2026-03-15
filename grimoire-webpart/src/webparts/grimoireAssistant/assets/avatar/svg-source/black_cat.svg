@@ -1,0 +1,22 @@
+<svg viewBox="0 0 937 1012" xmlns="http://www.w3.org/2000/svg">
+  <g id="black_cat_face">
+    <image href="__BLACK_CAT_BASE__" x="0" y="0" width="937" height="1012" preserveAspectRatio="none"/>
+
+    <g id="brows">
+      <image href="__BLACK_CAT_BROW_LEFT__" x="115" y="385" width="250" height="90" preserveAspectRatio="none"/>
+      <image href="__BLACK_CAT_BROW_RIGHT__" x="495" y="385" width="250" height="90" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="left_eye">
+      <image href="__BLACK_CAT_EYE_LEFT__" x="100" y="435" width="265" height="150" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="right_eye">
+      <image href="__BLACK_CAT_EYE_RIGHT__" x="480" y="435" width="265" height="150" preserveAspectRatio="none"/>
+    </g>
+
+    <g id="mouth">
+      <image href="__BLACK_CAT_MOUTH__" x="345" y="786" width="228" height="114" preserveAspectRatio="none"/>
+    </g>
+  </g>
+</svg>
