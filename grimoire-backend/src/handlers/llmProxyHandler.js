@@ -1,11 +1,11 @@
 /**
  * LLM Proxy handler.
- * Routes /api/{backend}/openai/* to Azure OpenAI with auth and rate limiting.
+ * Routes /api/{backend}/openai/* to Azure OpenAI with rate limiting.
  * Supports streaming (SSE) and regular JSON responses.
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { validateAuth } from "../middleware/auth.js";
+import { resolveCallerId } from "../middleware/callerIdentity.js";
 import { checkRateLimit } from "../middleware/rateLimit.js";
 import { getBackendAuthHeaders } from "../llm/backendAuth.js";
 import {
@@ -55,12 +55,9 @@ export async function llmProxyHandler(request, context) {
     };
   }
 
-  // Auth
-  const auth = validateAuth(request, corsHeaders);
-  if (!auth.authenticated) return auth.errorResponse;
-
-  // Rate limit
-  const rateCheck = checkRateLimit(auth.apiKey);
+  // Rate limit (keyed on caller identity)
+  const callerId = resolveCallerId(request);
+  const rateCheck = checkRateLimit(callerId);
   if (!rateCheck.allowed) {
     return { status: 429, headers: corsHeaders, jsonBody: { error: rateCheck.error } };
   }

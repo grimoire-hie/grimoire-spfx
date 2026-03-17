@@ -1,5 +1,10 @@
 /**
  * Rate limiting — in-memory, resets on function restart.
+ *
+ * SCALING NOTE: This implementation is per-instance. In a multi-instance
+ * Azure Functions deployment, each instance has its own rate limit store.
+ * For strict global rate limiting, replace with Azure Cache for Redis.
+ * For the current single-instance consumption plan, this is sufficient.
  */
 
 import { REQUESTS_PER_MINUTE, REQUESTS_PER_DAY } from "../utils/config.js";

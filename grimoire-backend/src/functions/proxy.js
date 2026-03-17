@@ -33,7 +33,7 @@ validateConfiguration();
 // ─── Health ───────────────────────────────────────────────────
 app.http("health", {
   methods: ["GET", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "health",
   handler: healthHandler,
 });
@@ -41,7 +41,7 @@ app.http("health", {
 // ─── Realtime Token ───────────────────────────────────────────
 app.http("realtimeToken", {
   methods: ["POST", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "realtime/token",
   handler: realtimeTokenHandler,
 });
@@ -49,7 +49,7 @@ app.http("realtimeToken", {
 // ─── MCP Discovery (legacy stateless) ─────────────────────────
 app.http("mcpDiscover", {
   methods: ["POST", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "mcp/discover",
   handler: mcpDiscoverHandler,
 });
@@ -57,7 +57,7 @@ app.http("mcpDiscover", {
 // ─── MCP Discover All ────────────────────────────────────────
 app.http("mcpDiscoverAll", {
   methods: ["POST", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "mcp/discover-all",
   handler: mcpDiscoverAllHandler,
 });
@@ -65,28 +65,28 @@ app.http("mcpDiscoverAll", {
 // ─── MCP Session-Based ────────────────────────────────────────
 app.http("mcpConnect", {
   methods: ["POST", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "mcp/connect",
   handler: mcpConnectHandler,
 });
 
 app.http("mcpExecute", {
   methods: ["POST", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "mcp/execute",
   handler: mcpExecuteHandler,
 });
 
 app.http("mcpDisconnect", {
   methods: ["POST", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "mcp/disconnect",
   handler: mcpDisconnectHandler,
 });
 
 app.http("mcpSessions", {
   methods: ["GET", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "mcp/sessions",
   handler: mcpSessionsHandler,
 });
@@ -109,7 +109,7 @@ app.http("userPreferences", {
 // ─── LLM Proxy (catch-all for OpenAI routes) ─────────────────
 app.http("proxy", {
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  authLevel: "anonymous",
+  authLevel: "function",
   route: "{backend}/openai/{*path}",
   handler: llmProxyHandler,
 });

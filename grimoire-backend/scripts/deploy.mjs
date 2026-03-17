@@ -223,6 +223,90 @@ function ensureBackendApiApplication(backendApiAppDisplayName, projectName) {
   };
 }
 
+// SPFx first-party app ID — constant across all tenants.
+const SPFX_CLIENT_APP_ID = "08e18876-6177-487e-b8b5-cf950c1e598c";
+
+/**
+ * Ensure the SPFx service principal has an OAuth2 permission grant to the backend API.
+ * This is the programmatic equivalent of approving the API permission request in
+ * SharePoint Admin Center → API access.
+ */
+function ensureSpfxPermissionGrant(backendApiAppId) {
+  // Resolve service principal IDs
+  const spfxSpJson = parseJsonOutput(
+    exec(
+      `az ad sp list --filter "appId eq '${SPFX_CLIENT_APP_ID}'" --query "[0].id" --output json`,
+      { silent: true, ignoreError: true }
+    )
+  );
+  if (!spfxSpJson) {
+    logInfo("SPFx service principal not found in tenant — permission grant skipped (will need manual approval).");
+    return;
+  }
+  const spfxSpId = spfxSpJson;
+
+  const backendSpId = parseJsonOutput(
+    exec(
+      `az ad sp list --filter "appId eq '${backendApiAppId}'" --query "[0].id" --output json`,
+      { silent: true, ignoreError: true }
+    )
+  );
+  if (!backendSpId) {
+    logInfo("Backend API service principal not found — permission grant skipped.");
+    return;
+  }
+
+  // Check if a grant already exists
+  const existingGrants = JSON.parse(
+    exec(
+      `az rest --method GET ` +
+        `--uri "https://graph.microsoft.com/v1.0/oauth2PermissionGrants?\\$filter=clientId eq '${spfxSpId}' and resourceId eq '${backendSpId}'" ` +
+        `--query "value" --output json`,
+      { silent: true, ignoreError: true }
+    ) || "[]"
+  );
+
+  const hasGrant = existingGrants.some((g) =>
+    String(g.scope || "").split(" ").includes(BACKEND_API_SCOPE_VALUE)
+  );
+
+  if (hasGrant) {
+    logSkip("SPFx → Backend API permission grant");
+    return;
+  }
+
+  // Create the grant
+  const grantBody = JSON.stringify({
+    clientId: spfxSpId,
+    consentType: "AllPrincipals",
+    resourceId: backendSpId,
+    scope: BACKEND_API_SCOPE_VALUE,
+  });
+
+  exec(
+    `az rest --method POST ` +
+      `--uri "https://graph.microsoft.com/v1.0/oauth2PermissionGrants" ` +
+      `--headers Content-Type=application/json ` +
+      `--body ${shellQuote(grantBody)} ` +
+      `--output none`,
+    { silent: true }
+  );
+  logOk("Granted SPFx → Backend API permission (user_impersonation)");
+}
+
+/**
+ * Configure Easy Auth in "pass-through" mode.
+ *
+ * SECURITY NOTE: requireAuthentication is false because:
+ *   - LLM proxy, MCP, and other routes use Azure function key auth (authLevel: "function")
+ *   - Only /api/user/* routes require the Entra bearer token (Easy Auth)
+ *   - The health endpoint uses function key auth
+ *
+ * When Easy Auth is enabled but not required, Azure still decodes and injects
+ * the x-ms-client-principal header for authenticated callers. This allows
+ * MCP handlers to resolve per-user identity for session ownership and rate
+ * limiting without breaking function-key-only callers.
+ */
 function configureFunctionAppEasyAuth({
   subscriptionId,
   tenantId,
@@ -537,7 +621,9 @@ async function main() {
   }
 
   const prefix = suffix ? `${projectName}-${suffix}` : projectName;
-  const backendApiAppDisplayName = `${capitalize(projectName)} Backend API`;
+  // Display name must match the SPFx manifest webApiPermissionRequests resource name.
+  // Always "Grimoire Backend API" regardless of prefix/suffix to avoid permission mismatch.
+  const backendApiAppDisplayName = "Grimoire Backend API";
 
   if (suffix) {
     logOk(`Using suffix: ${suffix}`);
@@ -803,26 +889,23 @@ async function main() {
     logOk(`Created function app: ${functionAppName}`);
   }
 
-  // Reuse existing ALLOWED_KEYS on re-deploy to avoid unintended key rotation.
-  const existingAllowedKeysRaw = exec(
-    `az functionapp config appsettings list ` +
+  // Auth is handled by Azure Functions built-in function key auth (authLevel: "function").
+  // Function keys are managed via Azure Portal or CLI — no custom ALLOWED_KEYS env var needed.
+  // Retrieve the default function key for display/SPFx web part configuration.
+  const functionKeyRaw = exec(
+    `az functionapp keys list ` +
       `--name ${functionAppName} ` +
       `--resource-group ${resourceGroup} ` +
-      `--query "[?name=='ALLOWED_KEYS'].value | [0]" ` +
+      `--query "functionKeys.default" ` +
       `--output tsv`,
     { silent: true, ignoreError: true }
   ).trim();
-  const existingAllowedKeys = existingAllowedKeysRaw === "null" ? "" : existingAllowedKeysRaw;
-  const firstExistingKey = existingAllowedKeys
-    .split(",")
-    .map((k) => k.trim())
-    .find(Boolean);
-  if (firstExistingKey) {
-    proxyKey = firstExistingKey;
-    logInfo(`Reusing existing proxy API key: ${proxyKey.slice(0, 16)}...`);
+  if (functionKeyRaw && functionKeyRaw !== "null") {
+    proxyKey = functionKeyRaw;
+    logInfo(`Using existing Azure function key: ${proxyKey.slice(0, 16)}...`);
   } else {
-    proxyKey = randomBytes(32).toString("hex");
-    logOk(`Generated proxy API key: ${proxyKey.slice(0, 16)}...`);
+    logInfo(`Function key will be auto-generated by Azure on first request.`);
+    proxyKey = "(retrieve from Azure Portal after deployment)";
   }
 
   // ── Step 9: Backend API registration ─────────────────────────
@@ -835,6 +918,10 @@ async function main() {
     logFail(`Backend API registration failed: ${error.message}`);
     process.exit(1);
   }
+
+  // Grant SPFx service principal (SharePoint Online Web Client Extensibility)
+  // access to the backend API — this is what SharePoint admin "API access" approval does.
+  ensureSpfxPermissionGrant(backendApiConfig.appId);
 
   // ── Step 10: Enable managed identity ────────────────────────
   logStep(10, "Managed Identity");
@@ -932,11 +1019,10 @@ async function main() {
   const realtimeDeploymentName = MODELS.realtime ? MODELS.realtime.deploymentName : `${prefix}-realtime`;
   const settings = [
     `BACKEND_reasoning_ENDPOINT=${foundryEndpoint}`,
-    `ALLOWED_KEYS=${proxyKey}`,
     `ALLOW_PERMISSIVE_LOCAL_CORS=false`,
     `ALLOWED_ORIGINS=${sharepointOrigin}`,
-    `REQUESTS_PER_MINUTE=30`,
-    `REQUESTS_PER_DAY=1000`,
+    `REQUESTS_PER_MINUTE=60`,
+    `REQUESTS_PER_DAY=5000`,
     // Required so the proxy can forward the Entra bearer token to Agent365 MCP servers.
     `MCP_TOKEN_FORWARD_ALLOWLIST=agent365.svc.cloud.microsoft`,
     `REALTIME_DEPLOYMENT_NAME=${realtimeDeploymentName}`,

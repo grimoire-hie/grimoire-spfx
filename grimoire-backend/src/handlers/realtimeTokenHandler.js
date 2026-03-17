@@ -4,7 +4,7 @@
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { validateAuth } from "../middleware/auth.js";
+import { resolveCallerId } from "../middleware/callerIdentity.js";
 import { enforceRateLimit } from "../middleware/rateLimit.js";
 import { getBackendAuthHeaders } from "../llm/backendAuth.js";
 import { BACKENDS, REALTIME_TOKEN_TIMEOUT_MS, REALTIME_DEPLOYMENT_NAME } from "../utils/config.js";
@@ -26,10 +26,9 @@ export async function realtimeTokenHandler(request, context) {
 
   const corsHeaders = getCorsHeaders(request);
 
-  // Auth + rate limit
-  const auth = validateAuth(request, corsHeaders);
-  if (!auth.authenticated) return auth.errorResponse;
-  const rateLimitError = enforceRateLimit(auth.apiKey, corsHeaders);
+  // Rate limit (keyed on caller identity)
+  const callerId = resolveCallerId(request);
+  const rateLimitError = enforceRateLimit(callerId, corsHeaders);
   if (rateLimitError) return rateLimitError;
 
   // Parse body

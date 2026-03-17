@@ -8,7 +8,7 @@
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { validateAuth } from "../middleware/auth.js";
+import { resolveCallerId } from "../middleware/callerIdentity.js";
 import { enforceRateLimit } from "../middleware/rateLimit.js";
 import { connectSession, disconnectSession } from "../mcp/McpSessionManager.js";
 
@@ -35,9 +35,8 @@ export async function mcpDiscoverAllHandler(request, context) {
 
   const corsHeaders = getCorsHeaders(request);
 
-  const auth = validateAuth(request, corsHeaders);
-  if (!auth.authenticated) return auth.errorResponse;
-  const rateLimitError = enforceRateLimit(auth.apiKey, corsHeaders);
+  const callerId = resolveCallerId(request);
+  const rateLimitError = enforceRateLimit(callerId, corsHeaders);
   if (rateLimitError) return rateLimitError;
 
   let body;
@@ -66,7 +65,7 @@ export async function mcpDiscoverAllHandler(request, context) {
 
     try {
       const result = await withTimeoutAndLateCleanup(
-        connectSession(serverUrl, server.name, bearerToken),
+        connectSession(serverUrl, server.name, bearerToken, callerId),
         SERVER_TIMEOUT_MS,
         async (lateResult) => {
           if (!lateResult?.sessionId) return;

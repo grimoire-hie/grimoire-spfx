@@ -1,14 +1,12 @@
 /**
  * Health check handler.
- * Anonymous: minimal status. Authenticated: full backend details.
+ * Protected by Azure function key auth — returns full backend details.
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { extractApiKey } from "../middleware/auth.js";
 import {
   ALLOWED_ORIGINS,
   ALLOW_PERMISSIVE_LOCAL_CORS,
-  ALLOWED_KEYS,
   BACKENDS,
   REQUESTS_PER_MINUTE,
   REQUESTS_PER_DAY,
@@ -52,21 +50,6 @@ export async function healthHandler(request) {
   if (preflight) return preflight;
 
   const corsHeaders = getCorsHeaders(request);
-  const apiKey = extractApiKey(request);
-  const isAuthenticated = apiKey && ALLOWED_KEYS.includes(apiKey);
-
-  if (!isAuthenticated) {
-    return {
-      headers: createTimingHeaders(corsHeaders, {
-        totalDurationMs: Date.now() - requestStartedAt,
-      }),
-      jsonBody: {
-        status: "ok",
-        service: "grimoire-backend",
-        timestamp: new Date().toISOString(),
-      },
-    };
-  }
 
   return {
     headers: createTimingHeaders(corsHeaders, {

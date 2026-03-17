@@ -4,7 +4,7 @@
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { validateAuth } from "../middleware/auth.js";
+import { resolveCallerId } from "../middleware/callerIdentity.js";
 import { disconnectSession } from "../mcp/McpSessionManager.js";
 
 export async function mcpDisconnectHandler(request, context) {
@@ -13,8 +13,7 @@ export async function mcpDisconnectHandler(request, context) {
 
   const corsHeaders = getCorsHeaders(request);
 
-  const auth = validateAuth(request, corsHeaders);
-  if (!auth.authenticated) return auth.errorResponse;
+  const callerId = resolveCallerId(request);
 
   let body;
   try {
@@ -31,7 +30,7 @@ export async function mcpDisconnectHandler(request, context) {
   context.log(`[mcp-disconnect] Disconnecting session: ${sessionId}`);
 
   try {
-    const result = await disconnectSession(sessionId);
+    const result = await disconnectSession(sessionId, callerId);
     return { headers: corsHeaders, jsonBody: result };
   } catch (error) {
     context.error(`[mcp-disconnect] Error: ${error.message}`);

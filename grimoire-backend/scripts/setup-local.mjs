@@ -20,7 +20,6 @@
  */
 
 import { existsSync, writeFileSync } from "node:fs";
-import { randomBytes } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -123,19 +122,15 @@ async function main() {
   );
   const hasFast = enableFast.toLowerCase() === "yes" || enableFast.toLowerCase() === "y";
 
-  // Generate proxy key for local testing
-  const proxyKey = randomBytes(32).toString("hex");
-
   const backends = hasFast ? "reasoning,fast" : "reasoning";
   const realtimeDeploymentName = config?.deploymentNames?.realtime || `${prefix}-realtime`;
 
   const settingsValues = {
     AzureWebJobsStorage: "UseDevelopmentStorage=true",
     FUNCTIONS_WORKER_RUNTIME: "node",
-    ALLOWED_KEYS: proxyKey,
     ALLOW_PERMISSIVE_LOCAL_CORS: "true",
-    REQUESTS_PER_MINUTE: "30",
-    REQUESTS_PER_DAY: "1000",
+    REQUESTS_PER_MINUTE: "60",
+    REQUESTS_PER_DAY: "5000",
     MCP_TOKEN_FORWARD_ALLOWLIST: "agent365.svc.cloud.microsoft",
     ALLOWED_ORIGINS: "",
     BACKENDS: backends,
@@ -157,7 +152,7 @@ async function main() {
 
   writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2) + "\n");
   logOk("Created local.settings.json");
-  logOk(`Generated proxy key: ${proxyKey.slice(0, 16)}...`);
+  logOk("Auth: Azure function key auth (bypassed locally by func start)");
 
   closePrompt();
 
@@ -174,10 +169,9 @@ async function main() {
   const reasoningDeployment = config?.deploymentNames?.reasoning || `${prefix}-reasoning`;
   const fastDeployment = config?.deploymentNames?.fast || `${prefix}-fast`;
 
-  logInfo(`Proxy Key:    ${proxyKey}`);
   logInfo(`Endpoint:     ${endpoint}`);
   logInfo(`Backends:     ${backends}`);
-  logInfo(`Auth:         API Key (local dev mode)`);
+  logInfo(`Auth:         Azure function key (bypassed locally)`);
   logInfo(`Prefix:       ${prefix}`);
 
   log("\n  Start the local proxy:\n", colors.bold);
@@ -191,7 +185,7 @@ async function main() {
   }
 
   log("\n  Test it:\n", colors.bold);
-  logInfo(`npm run test:proxy -- http://localhost:7071/api ${proxyKey}`);
+  logInfo(`npm run test:proxy -- http://localhost:7071/api`);
 }
 
 main().catch((error) => {

@@ -1,10 +1,10 @@
 /**
  * MCP Sessions handler.
- * GET /api/mcp/sessions — list active MCP sessions.
+ * GET /api/mcp/sessions — list active MCP sessions for the caller.
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { validateAuth } from "../middleware/auth.js";
+import { resolveCallerId } from "../middleware/callerIdentity.js";
 import { listSessions } from "../mcp/McpSessionManager.js";
 
 export async function mcpSessionsHandler(request) {
@@ -13,11 +13,10 @@ export async function mcpSessionsHandler(request) {
 
   const corsHeaders = getCorsHeaders(request);
 
-  const auth = validateAuth(request, corsHeaders);
-  if (!auth.authenticated) return auth.errorResponse;
+  const callerId = resolveCallerId(request);
 
   return {
     headers: corsHeaders,
-    jsonBody: { sessions: listSessions() },
+    jsonBody: { sessions: listSessions(callerId) },
   };
 }

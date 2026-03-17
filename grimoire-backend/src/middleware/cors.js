@@ -5,7 +5,7 @@
 import { ALLOWED_ORIGINS, ALLOW_PERMISSIVE_LOCAL_CORS } from "../utils/config.js";
 
 const ALLOWED_METHODS = "GET, POST, PUT, DELETE, PATCH, OPTIONS";
-const ALLOWED_HEADERS = "Content-Type, api-key, Authorization";
+const ALLOWED_HEADERS = "Content-Type, x-functions-key, Authorization";
 const MAX_AGE_SECONDS = "3600";
 
 export function isOriginAllowed(origin, config = {
