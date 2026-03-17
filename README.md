@@ -2,6 +2,8 @@
 
 An AI assistant for Microsoft 365 with reflexive UI awareness.
 
+[![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://www.youtube.com/watch?v=i0feytPdMog)
+
 GriMoire is a SharePoint Framework web part that combines an LLM assistant with a visual block system, intent-based search, and Microsoft 365 actions. The Hybrid Interaction Engine (HIE) keeps the model grounded in the UI it creates — interactions with blocks feed back into the conversation as structured events. All Microsoft 365 calls use delegated access under the signed-in user's identity.
 
 ## Repository structure
