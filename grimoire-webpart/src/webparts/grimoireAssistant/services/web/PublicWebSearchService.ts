@@ -282,7 +282,7 @@ export class PublicWebSearchService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'api-key': this.proxyConfig.proxyApiKey
+          'x-functions-key': this.proxyConfig.proxyApiKey
         },
         body: JSON.stringify({
           model: this.proxyConfig.deployment,

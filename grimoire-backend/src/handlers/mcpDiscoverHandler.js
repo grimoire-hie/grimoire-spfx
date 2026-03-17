@@ -4,7 +4,7 @@
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { validateAuth } from "../middleware/auth.js";
+import { resolveCallerId } from "../middleware/callerIdentity.js";
 import { enforceRateLimit } from "../middleware/rateLimit.js";
 import { validateMcpTargetUrl } from "../utils/mcpUrlPolicy.js";
 
@@ -14,10 +14,9 @@ export async function mcpDiscoverHandler(request, context) {
 
   const corsHeaders = getCorsHeaders(request);
 
-  // Auth + rate limit
-  const auth = validateAuth(request, corsHeaders);
-  if (!auth.authenticated) return auth.errorResponse;
-  const rateLimitError = enforceRateLimit(auth.apiKey, corsHeaders);
+  // Rate limit
+  const callerId = resolveCallerId(request);
+  const rateLimitError = enforceRateLimit(callerId, corsHeaders);
   if (rateLimitError) return rateLimitError;
 
   // Parse body

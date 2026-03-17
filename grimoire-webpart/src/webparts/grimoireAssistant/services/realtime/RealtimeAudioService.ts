@@ -396,7 +396,7 @@ export class RealtimeAudioService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'api-key': config.proxyApiKey
+          'x-functions-key': config.proxyApiKey
         },
         body: JSON.stringify({ voice, instructions })
       },

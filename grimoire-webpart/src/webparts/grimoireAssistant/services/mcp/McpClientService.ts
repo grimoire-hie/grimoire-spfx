@@ -58,7 +58,7 @@ export class McpClientService {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'api-key': this.apiKey
+            'x-functions-key': this.apiKey
           },
           body: JSON.stringify({ serverUrl, serverName, bearerToken })
         },
@@ -112,7 +112,7 @@ export class McpClientService {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'api-key': this.apiKey
+            'x-functions-key': this.apiKey
           },
           body: JSON.stringify({ sessionId, toolName, arguments: args || {} })
         },
@@ -169,7 +169,7 @@ export class McpClientService {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'api-key': this.apiKey
+            'x-functions-key': this.apiKey
           },
           body: JSON.stringify({ sessionId })
         },

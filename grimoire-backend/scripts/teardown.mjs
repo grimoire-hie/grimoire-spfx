@@ -103,6 +103,21 @@ async function main() {
   banner("Teardown Complete");
   logInfo(`All ${projectLabel} proxy resources are being deleted.`);
   logInfo("Check status: az group show --name " + resourceGroup);
+
+  // ── Post-teardown warnings ─────────────────────────────────
+  log("\n  ⚠  Important post-teardown steps:\n", colors.yellow);
+
+  log("  1. Entra app registrations are NOT deleted by resource group teardown.", colors.yellow);
+  log("     They live at the tenant level. To clean up manually:", colors.yellow);
+  log(`     az ad app list --display-name "Grimoire" --query "[].{name:displayName, appId:appId}" -o table`, colors.dim);
+  log("     az ad app delete --id <appId>\n", colors.dim);
+
+  log("  2. Cognitive Services (Foundry) resources are soft-deleted for 48 hours.", colors.yellow);
+  log("     They continue to consume model deployment quota until purged.", colors.yellow);
+  log("     To list soft-deleted resources:", colors.yellow);
+  log(`     az cognitiveservices account list-deleted --query "[?location=='swedencentral']" -o table`, colors.dim);
+  log("     To purge and free quota:", colors.yellow);
+  log(`     az cognitiveservices account purge --name <name> --resource-group ${resourceGroup} --location swedencentral\n`, colors.dim);
 }
 
 main().catch((error) => {

@@ -40,7 +40,7 @@ import { loadDeployConfig } from "./deploy-config.mjs";
 
 const config = loadDeployConfig();
 
-const EXPECTED_CORS_HEADERS = "Content-Type, api-key, Authorization";
+const EXPECTED_CORS_HEADERS = "Content-Type, x-functions-key, Authorization";
 
 // Deployment names — auto-detected from config or defaults
 const reasoningDeployment = config?.deploymentNames?.reasoning || "grimoire-reasoning";
@@ -212,7 +212,7 @@ async function main() {
 
   try {
     const res = await httpFetch(`${proxyUrl}/health`, {
-      headers: { "api-key": proxyKey },
+      headers: { "x-functions-key": proxyKey },
     });
     if (res.status === 200) {
       const body = JSON.parse(res.body);
@@ -266,7 +266,7 @@ async function main() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": proxyKey,
+          "x-functions-key": proxyKey,
         },
         body: chatBody,
         timeout: 30_000,
@@ -303,7 +303,7 @@ async function main() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": proxyKey,
+          "x-functions-key": proxyKey,
         },
         body: chatBody,
         timeout: 15_000,
@@ -339,15 +339,15 @@ async function main() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "api-key": "invalid-key-12345",
+        "x-functions-key": "invalid-key-12345",
       },
       body: chatBody,
     });
 
-    if (res.status === 403) {
-      pass("Invalid key rejected", "403 Forbidden");
+    if (res.status === 401) {
+      pass("Invalid key rejected", "401 Unauthorized");
     } else {
-      fail("Invalid key rejection", `expected 403, got ${res.status}`);
+      fail("Invalid key rejection", `expected 401, got ${res.status}`);
     }
   } catch (error) {
     fail("Auth rejection", error.message);
@@ -367,7 +367,7 @@ async function main() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "api-key": proxyKey,
+        "x-functions-key": proxyKey,
       },
       body: chatBody,
       timeout: 30_000,
@@ -405,7 +405,7 @@ async function main() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "api-key": proxyKey,
+        "x-functions-key": proxyKey,
       },
       body: JSON.stringify({ serverUrl: "https://httpbin.org/post" }),
       timeout: 15_000,
@@ -435,7 +435,7 @@ async function main() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "api-key": proxyKey,
+        "x-functions-key": proxyKey,
       },
       body: JSON.stringify({
         voice: "alloy",
@@ -469,7 +469,7 @@ async function main() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "api-key": proxyKey,
+        "x-functions-key": proxyKey,
       },
       body: JSON.stringify({
         action: "save",
@@ -497,7 +497,7 @@ async function main() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "api-key": proxyKey,
+        "x-functions-key": proxyKey,
       },
       body: JSON.stringify({
         action: "set",

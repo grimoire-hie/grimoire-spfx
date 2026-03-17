@@ -740,7 +740,7 @@ export class TextChatService {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'api-key': proxyApiKey
+            'x-functions-key': proxyApiKey
           },
           body,
           signal: controller.signal

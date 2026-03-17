@@ -4,7 +4,7 @@
  */
 
 import { getCorsHeaders, handlePreflight } from "../middleware/cors.js";
-import { validateAuth } from "../middleware/auth.js";
+import { resolveCallerId } from "../middleware/callerIdentity.js";
 import { enforceRateLimit } from "../middleware/rateLimit.js";
 import { executeToolOnSession } from "../mcp/McpSessionManager.js";
 
@@ -14,9 +14,8 @@ export async function mcpExecuteHandler(request, context) {
 
   const corsHeaders = getCorsHeaders(request);
 
-  const auth = validateAuth(request, corsHeaders);
-  if (!auth.authenticated) return auth.errorResponse;
-  const rateLimitError = enforceRateLimit(auth.apiKey, corsHeaders);
+  const callerId = resolveCallerId(request);
+  const rateLimitError = enforceRateLimit(callerId, corsHeaders);
   if (rateLimitError) return rateLimitError;
 
   let body;
@@ -38,7 +37,7 @@ export async function mcpExecuteHandler(request, context) {
   context.log(`[mcp-execute] Session: ${sessionId}, Tool: ${toolName}`);
 
   try {
-    const result = await executeToolOnSession(sessionId, toolName, args);
+    const result = await executeToolOnSession(sessionId, toolName, args, callerId);
 
     context.log(`[mcp-execute] Tool ${toolName} completed in ${result.durationMs}ms`);
 

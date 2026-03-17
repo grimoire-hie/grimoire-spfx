@@ -13,12 +13,9 @@ function parseBooleanFlag(value) {
   return String(value || "").trim().toLowerCase() === "true";
 }
 
-// Proxy authentication keys (browser → proxy)
-export const ALLOWED_KEYS = parseCsvList(process.env.ALLOWED_KEYS);
-
 // Rate limits
-export const REQUESTS_PER_MINUTE = parseInt(process.env.REQUESTS_PER_MINUTE || "30");
-export const REQUESTS_PER_DAY = parseInt(process.env.REQUESTS_PER_DAY || "1000");
+export const REQUESTS_PER_MINUTE = parseInt(process.env.REQUESTS_PER_MINUTE || "60");
+export const REQUESTS_PER_DAY = parseInt(process.env.REQUESTS_PER_DAY || "5000");
 
 // CORS origins
 export const ALLOWED_ORIGINS = parseCsvList(process.env.ALLOWED_ORIGINS);

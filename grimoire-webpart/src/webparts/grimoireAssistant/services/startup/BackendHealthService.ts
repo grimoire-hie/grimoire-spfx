@@ -37,7 +37,7 @@ export async function fetchBackendHealth(
 
   const startedAt = typeof performance !== 'undefined' ? performance.now() : Date.now();
   const response = await fetch(`${proxyConfig.proxyUrl}/health`, {
-    headers: { 'api-key': proxyConfig.proxyApiKey }
+    headers: { 'x-functions-key': proxyConfig.proxyApiKey }
   });
   const durationMs = Math.max(
     0,

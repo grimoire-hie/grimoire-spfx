@@ -62,7 +62,7 @@ export class NanoService {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'api-key': this.proxyApiKey
+            'x-functions-key': this.proxyApiKey
           },
           body: JSON.stringify(requestBody),
           signal: controller.signal
